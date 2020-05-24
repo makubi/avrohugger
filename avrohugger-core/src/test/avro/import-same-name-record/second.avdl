@@ -1,0 +1,13 @@
+@namespace("example.i_d_l.two")
+
+protocol ProtocolTwo {
+    import idl "first.avdl";
+
+    record MyRecord {
+        string id;
+    }
+
+    record UsesMyRecord {
+        example.i_d_l.one.MyRecord myRecord;
+    }
+}

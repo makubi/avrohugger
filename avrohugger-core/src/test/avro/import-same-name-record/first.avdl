@@ -1,0 +1,7 @@
+@namespace("example.i_d_l.one")
+
+protocol ProtocolOne {
+    record MyRecord {
+        string id;
+    }
+}

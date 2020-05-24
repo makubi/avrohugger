@@ -59,6 +59,7 @@ class StandardFileToFileSpec extends Specification {
     correctly generate an either containing logical types from IDL tagged decimals $e37
     correctly generate a coproduct containing logical types from IDL tagged decimals $e38
     correctly generate a protocol with special strings $e39
+    correctly generate two protocols with the same record $e40
   """
   
   // tests standard to fileToX
@@ -562,5 +563,22 @@ class StandardFileToFileSpec extends Specification {
     val source = util.Util.readFile("target/generated-sources/standard/example/idl/Names.scala")
 
     source === util.Util.readFile("avrohugger-core/src/test/expected/standard/example/idl/Names.scala")
+  }
+
+  def e40 = {
+    val firstRecord = new java.io.File("avrohugger-core/src/test/avro/import-same-name-record/first.avdl")
+    val secondRecord = new java.io.File("avrohugger-core/src/test/avro/import-same-name-record/second.avdl")
+
+    val gen = new Generator(Standard)
+    val outDir = gen.defaultOutputDir + "/standard/"
+
+    gen.fileToFile(firstRecord, outDir)
+    gen.fileToFile(secondRecord, outDir)
+
+    val firstSource = util.Util.readFile("target/generated-sources/standard/example/i_d_l/one/MyRecord.scala")
+    val secondSource = util.Util.readFile("target/generated-sources/standard/example/i_d_l/two/ProtocolTwo.scala")
+
+    firstSource === util.Util.readFile("avrohugger-core/src/test/expected/standard/example/idl/import-same-name-record/MyRecord.scala")
+    secondSource === util.Util.readFile("avrohugger-core/src/test/expected/standard/example/idl/import-same-name-record/ProtocolTwo.scala")
   }
 }
